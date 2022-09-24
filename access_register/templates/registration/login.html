@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if form.errors %}
+     <p>username and password non combaciano, riprova!</p>
+{% endif %}
+
+<!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#url -->
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+    <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+   </table>
+
+   <input type="submit" value="login">
+   <input type="hidden" name="next" value="{{ next }}">
+</form>
+
+<p><a href="{% url 'password_reset' %}">Password dimenticata?</a></p>
+
+{% endblock %}

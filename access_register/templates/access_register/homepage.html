@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<font color = "red"><div align = "left" ><h5> Piattaforma scambio Token </h5> </div> </font>
+<h8> <div align = "left"> <i> (local Testnet "Ganache") </i> </div> </h8>
+
+
+   {% if not request.user.is_authenticated %}
+
+   <br>
+
+   <br>
+       <a class = "nav-link" href = "registrazion/" > <font color = "green" > <li> <b> Registra nuovo account </b> </li> </a>
+
+       <a class = "nav-link" href = "accounts/login" > <font color = "green" > <li><b> Esegui Login </b></li> </a>
+    <br>
+   
+    
+
+
+    
+
+   
+    {% if numFaucet is 0 %} 
+    <h6><font color="black"><nobr>Al primo accesso dell'ADMIN verrà deployato lo smartcontract del Token "Patoken_ERC20" su <br>Ganache Local Blockchain e configurati Account e relativi address ; verranno mintati 10000 Patoken che,<br> in quanto Faucet, saranno assegnati in quantità randomica a ciacun nuovo Utente.</nobr></font></h6>
+    {% endif %}
+    {% if numFaucet > 0 %} 
+    <br>
+    <br>
+    <h6><font color="black"><nobr>Considerando anche il Fucet della piattaforma, dei {{MAX_USER_GANACHE}} address attualmente configurati</nobr></font></h6>
+    <h6><font color="black"><nobr>sull'attuale local Blockchain Ganache, {{numberCustomers }}  sono già stati assegnati agli account</nobr></font></h6>
+    <br>  
+    <br>
+    {% endif %}
+    {% endif %}
+
+    
+
+    {% if ceckFull > 0 %}
+    <h6><font color="black"><nobr>E' dunque possibile istanziare {{ceckFull}} nuovi account</nobr></font></h6>
+{% endif %}
+
+{% if ceckFull is 0 %}
+<h6><font color="black"><nobr> Non è dunque possibile creare nuovi utenti, rivolgersi all'amministratore per liberare spazio </nobr> <nobr>nel Db di eventuali Account obsoleti rendondone nuovamente disponibili i relativi Address</nobr></font></h6>              
+{% endif %}
+
+
+
+<br> 
+<br>
+{% if request.user.is_authenticated %}
+<h5><nobr>Benvenuto! Accesso effettuato con l'User: {{request.user }}</nobr></h5>
+
+{% if not request.user.is_superuser %}
+<br>
+<h6><nobr><u>Il tuo saldo di Patoken e'</u>: {{patokenBalance }}</nobr></h6>
+<br>
+{% endif %}
+
+{% if request.user.is_superuser %}
+<br>
+<h6><u><font color="blue"><nobr><i>Ruolo di Faucet della Piattaforma</i></font>*Saldo di Patoken e'</u>: {{faucetAdminBalance }}</nobr></h6>
+<br>
+{% endif %}
+
+
+
+   <nobr><a class="nav-link" href="/getMnemonic/"><font color="green"><li><b>Reinserisci la MNEMONIC Phrase della tua Local Blockchain Ganache</b></li></font></a></nobr>
+   <br>
+   <nobr><a class="nav-link" href="/getTotalSupply/"><font color="green"><li><b>Mostra la Total Supply del Token "PatokenErc20"</b></li></font></a></nobr>
+   <br>
+   <nobr><a class="nav-link" href="/showAddressTransferToken/"><font color="green"><li><b>Trasferisci "PatokenErc20" ad un altro Address</b></li></font></a></nobr>
+   
+   
+   {% if request.user.is_superuser %}
+   <br>
+   <nobr><font color="brown"><h5>Essendo uno degli ADMIN disponi dei seguenti privilegi aggiuntivi: </h5><font color="green"></nobr>
+   <br>  
+   <nobr><a class="nav-link" href="/showTokenBalances/"><font color="green"><li><b>Visualizza saldi ERC20 PatToken sui diversi Address</b></li></font></a></nobr>
+   <br>
+   <nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Interroga gli eventi delle Tx associate allo Smart Contract "Patoken Erc20" mostrandone la cronologia degli scambi tra Address</b></li></font></a></nobr>
+   {% endif %}
+   {% endif %}
+
+{% endblock content %}
+ 
+
