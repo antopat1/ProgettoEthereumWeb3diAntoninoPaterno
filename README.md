@@ -4,8 +4,8 @@ Using IDE VISUAL STUDIO CODE and PyMongo a distribution within the Django framew
 has been created a graphical interface  that use WEB3.PY library to  deploys a SmartContract in ERC20 standard on local blockchain GANACHE 
 and than recalls its functionalities archiving the related events.
 
-The platform allowsto view the total supply of an exotic ERC20 "PATOKEN" Token, allowing the different users who register to be able to exchange this asset.
-There is also a function that shows the balances of the different accounts as well as the list of Transfer Token type events inherited from the ERC20 parent class.
+The platform allows to view the total supply of an exotic ERC20 "PATOKEN" Token, allowing the different users who register to be able to exchange this asset.
+There is also functions that shows the balances of the different accounts, and the list of "Transfer Token events" inherited from the ERC20 parent class.
 
 ## Development tools and applications
 
