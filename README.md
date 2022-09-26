@@ -1,1 +1,28 @@
-[ProgettoEthereumWeb3diAntoninoPaterno.pdf](https://github.com/antopat1/ProgettoEthereumWeb3diAntoninoPaterno/files/9649397/ProgettoEthereumWeb3diAntoninoPaterno.pdf)
+# Exchange platform ERC20 token on Local Blockchain Ganache
+
+Using IDE VISUAL STUDIO CODE and PyMongo a distribution within the Django frameworkfor document archiving on non-SQL databases MongoDb,
+has been created a graphical interface  that use WEB3.PY library to  deploys a SmartContract in ERC20 standard on local blockchain GANACHE 
+and than recalls its functionalities archiving the related events.
+
+The platform allowsto view the total supply of an exotic ERC20 "PATOKEN" Token, allowing the different users who register to be able to exchange this asset.
+There is also a function that shows the balances of the different accounts as well as the list of Transfer Token type events inherited from the ERC20 parent class.
+
+## Development tools and applications
+
+● Python 3.10.2;
+
+● Visual Studio Code;
+
+● MongoDB Compass;
+
+● Node.js;
+
+● Ganache v2.5.4;
+
+## Libraries and further upgrades to be called from the terminal subsequent to the installation of the requirements.txt
+
+● npm install -g ganache-cli;
+
+● brownie pm install OpenZeppelin/openzeppelin-contracts@4.0.0;
+
+● pip install --upgrade pymongo==3.12;
