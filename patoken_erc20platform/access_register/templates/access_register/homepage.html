@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% block content %}
+<nobr><font color = "red"><div align = "left" ><h5> Piattaforma Multichain scambio Token e Moneybox</h5> </div>  </font> </nobr>
+<h8> <div align = "left"> <i> (local Testnet "Ganache"&public Testnet "GOERLI") </i> </div> </h8>
+
+   {% if not request.user.is_authenticated %}
+
+   <br>
+
+   <br>
+       <a class = "nav-link" href = "registrazion/" > <font color = "green" > <li> <b> Registra nuovo account </b> </li> </a>
+
+       <a class = "nav-link" href = "accounts/login" > <font color = "green" > <li><b> Esegui Login </b></li> </a>
+    <br>
+   
+
+
+   
+    {% if numFaucet is 0 %} 
+    <h6><font color="black"><nobr>Al primo accesso dell'ADMIN il relativo EoA associato, deployerà gli smartcontract del Token "Patoken_ERC20" e "MoneyBox"su <br>Ganache Local Blockchain e verranno configurati i restanti Account e relativi address ; verranno inoltre mintati 10000 Patoken che,<br> in quanto Faucet, saranno assegnati in quantità randomica a ciacun nuovo Utente.</nobr><br><nobr>Una volta eseguito l'accesso sarà possibile scegliere se operare su Goerli TestNet</nobr></font></h6>
+    {% endif %}
+    {% if numFaucet > 0 %} 
+    <br>
+    <br>
+    <h6><font color="black"><nobr>Incluso il Faucet della piattaforma, dei {{MAX_USER_GANACHE}} address attualmente configurati</nobr></font></h6>
+    <h6><font color="black"><nobr>sull'attuale local Blockchain Ganache, {{numberCustomers }}  sono già stati assegnati agli account</nobr></font></h6>
+    <br>  
+    <br>
+    {% endif %}
+    {% endif %}
+   
+    {% if ceckFull > 0 %}
+    <h6><font color="black"><nobr>E' dunque possibile istanziare {{ceckFull}} nuovi account</nobr></font></h6>
+{% endif %}
+
+{% if ceckFull is 0 %}
+<h6><font color="black"><nobr> Non è dunque possibile creare nuovi utenti, rivolgersi all'amministratore per liberare spazio </nobr> <nobr>nel Db di eventuali Account obsoleti rendondone nuovamente disponibili i relativi Address</nobr></font></h6>              
+{% endif %}
+
+
+<!--- Inizio Tabelle affiancate --->
+
+<CENTER>
+   <TABLE CELLPADDING=40> <!--- Tabella invisibile che fa da contenitore --->
+   <TR>
+   
+   <TD> <!--- Inizio della prima cella invisibile --->
+   
+   <!--- Prima tabella --->
+   
+   <TABLE BORDER=0>
+   
+   
+   
+   <TR><TH><table width="250" align="center" bgcolor="#00ff00" border="0" table-layout="auto"><tbody>
+   
+   </tbody></table></TH></TR>
+   
+   <TR><TD>  <div class="card-body">
+   
+  
+           <table summary="" style="border:1px solid red; float:left;" class="table table-striped table-bordered table-hover table-sm " >
+           
+            
+ 
+{% if request.user.is_authenticated %}
+<h5><nobr>Benvenuto! Accesso effettuato con l'User: {{request.user }}</nobr></h5>
+
+{% if not request.user.is_superuser %}
+<h6><nobr><font color="blue"><u>Il tuo saldo di Patoken e'</u></font>: {{patokenBalance }}</nobr></h6>
+<br>
+{% endif %}
+
+{% if request.user.is_superuser %}
+<br>
+<h6><font color="blue"><nobr><i>Ruolo di Faucet della Piattaforma</i></font>--><u>Saldo Patoken:</u> <--: {{faucetAdminBalance }} </nobr></h6>
+
+{% endif %}
+
+<!------------------------------------------>
+
+
+   <nobr><a class="nav-link" href="/getMnemonic/"><font color="green"><li><b>Reinserisci la MNEMONIC Phrase della tua Local Blockchain Ganache</b></li></font></a></nobr>
+   
+   <nobr><a class="nav-link" href="/getTotalSupply/ganache"><font color="green"><li><b>Mostra la Total Supply del Token "PatokenErc20"</b></li></font></a></nobr>
+   
+   <nobr><a class="nav-link" href="/showAddressTransferToken/ganache/"><font color="green"><li><b>Trasferisci "PatokenErc20" ad un altro Address o deposita al local MoneyBox </b></li></font></a></nobr>
+   
+   <nobr><a class="nav-link" href="/getBalanceOnMoneyBox/ganache/"><font color="DarkGreen"><li><b>Visualizza saldo Patoken depositato dall attuale EOA sullo SmartContract MoneyBox su Ganache Local Blockchain </b></li></font></a></nobr>
+   
+   <nobr><a class="nav-link" href="/getWithdrawERC20view/ganache/"><font color="DarkGreen"><li><b> Ritira Patoken precedentemente depositati sul MoneyBox SC dal EOA attualmente autenticato </b></li></font></a></nobr>
+   
+   <br>
+
+   {% if request.user.is_superuser %}
+   
+   <nobr><font color="brown"><h5>Essendo l' ADMIN disponi dei seguenti privilegi aggiuntivi: </h5><font color="green"></nobr>
+     
+   <nobr><a class="nav-link" href="/showTokenBalances/ganache"><font color="green"><li><b>Visualizza saldi ERC20 PatToken sui diversi Address </b></li></font></a></nobr>
+   <nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Analizza Log eventi di scambio Patoken tra EoA o deposito su MoneyBox </b></li></font></a></nobr>  <!--Interroga gli eventi delle Tx associate allo Smart Contract "Patoken Erc20" mostrandone la cronologia degli scambi tra Address-->
+   <!---<nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Delega EOA uso complessivo bilanci del MoneyBox  </b></li></font></a></nobr>
+   <nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Reinizializza consistenza MoneyBox </b></li></font></a></nobr> --->
+   {% endif %}
+   {% endif %}
+
+   
+  
+
+
+           </table>
+        </div></TD></TR>
+   </TABLE>
+   
+   </TD> <!--- Fine della prima cella invisibile --->
+   
+   {% if request.user.is_authenticated %}
+   <TD> <!--- Inizio della seconda cella invisibile --->
+   
+   <!--- Seconda tabella --->
+    
+
+   <TABLE BORDER=0>
+   <td width="600" bgcolor="#F0F8FF"><font color="FF0000"><nobr>Mantenere saldo Faucet ad un minimo di almeno 0.15 Eth;</nobr><br><nobr><font color="blue"> {{goerliAddressFaucet}} -> {{faucetGoerliEthBalance|floatformat:4}} </font></nobr><br> <b>Sotto 0.1Eth funzioni inaccessibili</b><i>; Automatic recharge di 0.05 Eth dal BootFaucet ad ogni input se saldo < 0.2 Eth</i></b></font></td>
+      
+   <TR><TH><table width="350" align="left" bgcolor="#00ff00" border="0" table-layout="auto"><tbody>
+   <tr>
+   {% if request.user.is_superuser and COUNT_LOWETH_USER > 0.0  %}   
+   <td width="600" bgcolor="#ffff00">Accedi alla versione su Testnet pubblica Goerli deployando gli SC "ERC20" e "PiggyBank" ed inviando degli EthTest ad eventuali User già registrati e con bilancio < 0.05</td>
+   {% endif %}
+
+   {% if request.user.is_superuser %}
+      {% if COUNT_LOWETH_USER == None or COUNT_LOWETH_USER == 0.0  %}   
+   <td width="600" bgcolor="#ffff00">Accedi alla versione su Testnet pubblica Goerlie </td><br>
+   {% if DEPLOY_GOERLI == None %}
+   <h9><i>Al primo accesso il Deploy può richiedere diversi minuti e gas in base alla congestione su Blockchain</i></h9>
+   {% endif %}
+      {% endif %}
+   {% endif %}
+   
+   {% if not request.user.is_superuser %}   
+   <td width="600" bgcolor="#ffff00">Se l'amministratore ha precedentemente deployato gli SC "ERC20" e "Moneybox", accedi alla versione su Testnet pubblica Goerli</td>
+   {% endif %}
+
+   </tr>
+
+
+   </tbody></table></TH></TR>
+   
+        </div></TD></TR>
+        
+   </TABLE>
+
+   <p> <a href="/viewGoerli/" target="_self"> 
+      {% load static %} <img src="{% static "dj_app/media/MoneyBox.png" %}" alt="MoneyBox" height="270" width="350"/><br>
+      {% if request.user.is_superuser and COUNT_LOWETH_USER > 0.0 %}
+      <h9><nobr> {{COUNT_LOWETH_USER}} Utenti richiedono EthTest; Clicca quindi {{COUNT_LOWETH_USER}} volte </nobr> questo link.<i><b> (attesa ≈30 sec propag. & ceck Tx)</b></i></h9>
+      {% endif %}
+      
+      {% if not request.user.is_superuser and COUNT_LOWETH_USER > 0.0 %}
+      <h9><nobr>  Richiedi 0.05 EthTest al Faucet; Clicca questo link per poter poi </nobr>accedere alle funzionalità della piattaforma<i><b>( attesa ≈30 sec propag. & ceck Tx)</b></i></h9>
+      {% endif %}
+
+   </a>
+   
+   {% if not DEPLOY_GOERLI == None %}     <!--- and request.user.is_superuser --->
+   {% if not COUNT_PATOKEN_EOA == 0.0 or not COUNT_LOWETH_USER == None  %}
+   
+   {% if COUNT_LOWETH_USER == 0.0 and not COUNT_PATOKEN_EOA == 0.0 %}
+   
+   {% if request.user.is_superuser %}
+   <a href="/updateGoerliERC20Balance/all/" target="_self">Ora che tutti User hanno TestEth, clicca qui {{COUNT_PATOKEN_EOA}} volte per trasferirvi dal Faucet i PATOKEN attribuiti in numero casuale dalla piattaforma </a>
+   {% endif %}
+   
+   {% if not request.user.is_superuser %}
+   <a href="/updateGoerliERC20Balance/single/" target="_self">Clicca qui per trasferire dal Faucet i PATOKEN attribuiti in numero casuale dalla piattaforma </a>
+   {% endif %}
+   
+   {% endif %}
+   {% endif %}
+   {% endif %}
+   
+   </p>
+
+   </TD> <!--- Fine della seconda cella invisibile --->
+   {% endif %}
+   
+   </TR>
+   </TABLE>
+   </RIGHT>
+   
+   <!--- Fine Tabella Affiancata --->
+
+
+
+<!------------------------------------------>
+
+
+
+{% if request.user.is_authenticated %}
+
+
+<table style="border-collapse: collapse; border: none;">
+   <tr style="white-space: nowrap;">
+     <td style="border: none; padding: 10px;">
+      <table style="color: #8B4513; font-style: italic;">
+         <tr>
+            <td><u><nobr>CONTATORE EVENTI TRASFERIMENTO TOKEN IN PIATTAFORMA :</nobr></u></td>
+            {% if COUNT_EVENT_TRANSFER == None %}
+              <td><b> 0 </b></td>
+            {% endif %}
+            {% if not COUNT_EVENT_TRANSFER == None %}
+              <td><b> {{COUNT_EVENT_TRANSFER}}  </b></td>
+            {% endif %}  
+        </tr>
+      </table>
+      {%if BOOST_ETH == "request" %}
+      <td style="border: none;" width="100">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+      
+     <td style="border: none; padding: 10px;text-align: right;"><a href="/boostEthOnCongestion/" target="_self"><input type="submit" class="btn btn-info" value="Extra Ether for congestion" onclick="window.location.href='/boostEthOnCongestion/';"></a></td> 
+     {% endif %}
+   </tr>
+ </table>   
+
+
+
+
+
+{% endif %}
+
+{% endblock content %}
+ 
+

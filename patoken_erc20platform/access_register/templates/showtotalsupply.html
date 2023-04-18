@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<font color = "blue"> <h5> <nobr> La Total Supply del Token ERC20 "Patoken" deployato sull'address {{smDeployAdd}} </nobr> <br>
+    {% if ganacheOrGoerli == "ganache" %}  
+    <nobr> della Blockchain attualmente in esecuzione in locale è: </nobr> </font> </h5>
+    {% endif %}
+
+    {% if ganacheOrGoerli == "goerli" %}  
+    <nobr> della TestNet pubblica Goerli è: </nobr> </font> </h5>
+    {% endif %}  
+
+<br>
+<br>
+<div align = "right"> <i> <h1> {{TOTALSUPPLY}} </h1> </i> </div>
+<br>
+<a class = "nav-link" href = "/" > <font color = "green" > <div style = "text-align: left" > <li> Torna alla Homepage!</li> </div> </font> </a>
+{% endblock content %}

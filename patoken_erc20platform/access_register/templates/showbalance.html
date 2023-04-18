@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if ganacheOrGoerli == "ganache" %}
+<font color = "red"> <h5><nobr>Saldi Accounts chain local {{ganacheOrGoerli}}  di "ERC20 Patoken" </nobr> </h5> </font>
+{% endif %}
+
+{% if ganacheOrGoerli == "goerli" %}
+<font color = "red"> <h5><nobr>  Saldi Accounts chain {{ganacheOrGoerli}}  di "ERC20 Patoken" </nobr> </h5> </font>
+{% endif %}
+
+<h6> Di seguito i saldi di Patoken per singolo Address: </h6>
+{% for key, value in get_balance.items %}
+----------------
+<h7><nobr>{{key}} - ->{{value}} </nobr> </h7>
+{% endfor %}
+<br>
+<a class = "nav-link" href = "/" > <font color = "green" > <div style = "text-align: left"> <li> Torna alla Homepage!</li> </div> </font> </a>
+{% endblock content %}

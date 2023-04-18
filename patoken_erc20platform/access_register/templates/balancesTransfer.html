@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_superuser %}
+<div style = "text-align:left" >
+    {% if user.is_authenticated %}
+    {% if ganacheOrGoerli == "ganache" %}
+    <h3> <nobr> Inserisci destinazione e quantità di Token da inviare su altro address in Local BC </nobr> </h3>
+          
+    <h6> <font color = "blue"> <nobr> Disponibilità wallet {{currentBalance}} </font> </nobr> </h6>
+    <form  method = "post" >
+        {% csrf_token %}
+        Quantità {{form_w.patoken_wallet}} <br>
+        <div style="display:none">
+        <label for="{{ form.goerli_Address.id_for_label }}">Goerli  Address:</label>
+        <input type="text" name="{{ form_w.goerli_Address.name }}" value="superfluous_data" id="{{ form_w.goerli_Address.id_for_label }}">
+        </div>
+        <label for="{{ form.ganache_Address.id_for_label }}">Ganache Address:</label>
+        <input type="text" name="{{ form_w.ganache_Address.name }}" id="{{ form_w.ganache_Address.id_for_label }}">
+        <input type = "submit" class = "btn btn-info" value = "Procedi all'invio" >
+    </form>
+
+
+    
+    {% endif %}
+    
+    {% if ganacheOrGoerli == "gorli" %}
+    <h3> <nobr> Inserisci destinazione e quantità di Token da inviare su altro address su Testnet Gorli </nobr> </h3>
+    
+        <h6> <font color = "blue"> <nobr> Disponibilità wallet {{currentBalance}} </font> </nobr> </h6>
+        <form  method = "post" >
+            {% csrf_token %}
+            Quantità {{form_w.patoken_wallet}} <br>
+            <div style="display:none">
+            <label for="{{ form.ganache_Address.id_for_label }}">Ganache Address:</label>
+            <input type="text" name="{{ form_w.ganache_Address.name }}" value="superfluous_data" id="{{ form_w.ganache_Address.id_for_label }}">
+            </div>
+            <label for="{{ form.goerli_Address.id_for_label }}">Goerli Address:</label>
+            <input type="text" name="{{ form_w.goerli_Address.name }}" id="{{ form_w.goerli_Address.id_for_label }}">
+            <input type = "submit" class = "btn btn-info" value = "Procedi all'invio" >
+        </form>
+
+        {% endif %}
+</div>
+
+{% endif %}
+{% endif %}
+
+
+{% if not request.user.is_superuser %}
+<div style = "text-align:left" >
+    {% if user.is_authenticated %}
+        {% if ganacheOrGoerli == "ganache" %}
+        <h3> <nobr> Inserisci destinazione e quantità di Token da inviare su altro address in Local BC </nobr> </h3>
+        {% endif %}
+        
+        {% if ganacheOrGoerli == "gorli" %}
+        <h3> <nobr> Inserisci destinazione e quantità di Token da inviare su altro address su Testnet Gorli </nobr> </h3>
+        {% endif %}
+        
+        
+        <h6> <font color = "blue"> <nobr> Disponibilità wallet {{currentBalance}} </font> </nobr> </h6>
+       
+
+        <form  method = "post" >
+            {% csrf_token %}
+            Quantità {{form_w.patoken_wallet}} <br>
+            Address {{form_w.user_ganache_Address}} 
+            <input type = "submit" class = "btn btn-info" value = "Procedi all'invio" >
+        </form>
+ 
+
+        {% endif %}
+</div>
+{% endif %}
+
+     <TABLE CELLPADDING = 40> 
+     <TR>
+
+     <TD> 
+
+     <TABLE BORDER = 0>
+
+     <TR> <TH> <table width = "250" align = "left" bgcolor = "#00ff00" border = "0" table - layout = "auto"> <tbody>
+     <tr>
+     <td width = "600" bgcolor = "#ffff00"> <nobr> Individua indirizzo Account a cui inviare quantità di ERC20 PATOKEN </nobr> </td>
+     </tr>
+     </tbody> </table> </TH> </TR>
+
+         <TR> <TD> <div class = "card-body">
+
+             <table summary = "" style = "border:1px solid red; float:left;" class = "table table-striped table-bordered table-hover table-sm " >
+
+                 <thead>
+                     <tr>
+                         <th scope = "col" > <font color = "bown" > * </font> </th>
+                         <th scope = "col" > <font color = "bown" > Account </font> </th>
+                         {% if ganacheOrGoerli == "ganache" %}
+                         <th scope = "col" > <font color = "bown" ><nobr> Ganache Address <u> <i> (copia ed incolla nel form sopra) </i> </u> </font> </th></nobr>
+                         {% endif %}
+                         {% if ganacheOrGoerli == "gorli" %}
+                         <th scope = "col" > <font color = "bown" ><nobr> Gorli Address <u> <i> (copia ed incolla nel form sopra) </i> </u> </font> </th></nobr>
+                         {% endif %}
+                     </tr>
+                 </thead>
+                 
+                
+            {% if ganacheOrGoerli == "gorli" %}
+                 {% for cust in customers %}
+                 {% if user_current != cust.user %}
+                 <tbody>
+                     <tr>
+                         <td> <p>  # </p></td>
+                         <td> <p> {{cust.user}} </p> </td>
+                         <td> <p> {{cust.user_goerli_Address}} </p> </td>
+                     </tr>
+                 </tbody>
+                 {% endif %}
+                 {% endfor %}
+            {% endif %}
+
+            {% if ganacheOrGoerli == "ganache" %}
+                 {% for cust in customers %}
+                 {% if user_current != cust.user %}
+                 <tbody>
+                     <tr>
+                         <td> <p>  # </p></td>
+                         <td> <p> {{cust.user}} </p> </td>
+                         <td> <p> {{cust.user_ganache_Address}} </p> </td>
+                     </tr>
+                 </tbody>
+                 {% endif %}
+                 {% endfor %}
+            {% endif %}
+
+
+             </table>
+          </div></TD></TR>
+     </TABLE>
+     
+     </TD> <!--- Fine della prima cella invisibile --->
+     
+     </TR>
+     </TABLE>
+  
+
+     <!--- Fine Tabella Affiancata --->
+      
+     
+     {% if ganacheOrGoerli == "ganache" %}
+     <nobr>
+        <span style="background-color: rgb(0, 255, 60); display: inline-block;">Deposita i tuoi token sul contratto MONEYBOX all'address: <font color="red"><b>{{piggyBankScGanacheAddress}}</b></font></span>
+        <h6><i>Ad eccezione dell'ADMIN (Deployer e Owner SC), qui il primo transfer richierà 3 Tx e dunque più tempo per inserimento in whiteList EoA,ApproveTx e TransferTx</i></h6>
+      </nobr>
+      {% endif %}
+      
+      {% if ganacheOrGoerli == "gorli" %}
+      <nobr>
+        <span style="background-color: rgb(0, 255, 60); display: inline-block;">Deposita i tuoi token sul contratto MONEYBOX all'address: <font color="red"><b>{{piggyBankScGorliAddress}}</b></font></span>
+        <h6><i>Ad eccezione dell'ADMIN (Deployer e Owner SC),qui il primo transfer richierà 3 Tx e dunque più tempo per inserimento in whiteList EoA,ApproveTx e TransferTx</i></h6>
+      </nobr>
+      {% endif %}
+      
+      {% if not request.user.is_superuser and ganacheOrGoerli == "ganache" %}
+        <br> 
+        <br>   
+     <h6><nobr> <big><i><b><u>NB.</u> </b></i> </big><font color="bown"> Puoi restituire tutti o parte dei Token anche al Faucet avente il seguente UserID e Address:</font></nobr> - <nobr><font color="blue">  {{faucetUser}} -> {{faucetAddress}} </font> <nobr> </h6>
+     {% endif %}
+     
+     {% if not request.user.is_superuser and ganacheOrGoerli == "gorli" %}
+     <br> 
+        <br>   
+     <h6><nobr> <big><i><b><u>NB.</u> </b></i> </big><font color="bown"> Puoi restituire tutti o parte dei Token anche al Faucet avente il seguente UserID e Address:</font></nobr> - <nobr><font color="blue">  {{faucetUser}} -> {{faucetGorliAddress}} </font> <nobr> </h6>
+     {% endif %}
+    
+     <br> 
+    <br> 
+ <a class="nav-link" href="/"><font color="green"><div style="text-align: left"><li>Torna alla Homepage!</li></div></font></a>
+
+ {% if ganacheOrGoerli == "ganache" %}
+ <table style="color: #8B4513; font-style: italic;">
+    <tr>
+       <td><u><nobr>CONTATORE EVENTI TRASFERIMENTO TOKEN IN PIATTAFORMA :</nobr></u></td>
+       {% if COUNT_EVENT_TRANSFER == None %}
+         <td><b> 0 </b></td>
+       {% endif %}
+       {% if not COUNT_EVENT_TRANSFER == None %}
+         <td><b> {{COUNT_EVENT_TRANSFER}}  </b></td>
+       {% endif %}  
+   </tr>
+ </table>
+ {% endif %}
+
+ {% if ganacheOrGoerli == "gorli" %}
+ <table style="color: #8B4513; font-style: italic;">
+    <tr>
+       <td><u><nobr>CONTATORE EVENTI TRASFERIMENTO TOKEN SU RETE GORLI TRA EoA PIATTAFORMA:</nobr></u></td>
+       {% if COUNT_EVENT_TRANSFER_GORLI == None %}
+         <td><b> 0 </b></td>
+       {% endif %}
+       {% if not COUNT_EVENT_TRANSFER_GORLI == None %}
+         <td><b> {{COUNT_EVENT_TRANSFER_GORLI}}  </b></td>
+       {% endif %}  
+   </tr>
+ </table>
+ {% endif %}
+
+{% endblock content %}

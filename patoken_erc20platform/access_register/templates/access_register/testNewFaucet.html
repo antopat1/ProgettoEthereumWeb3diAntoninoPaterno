@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="it">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    
+    {%if not USER_GOERLI_BALANCE == None  %}
+    <h6><font color="blue"><nobr> Bilancio TestEth su {{CURRENT_EOA}} EoA Goerli corrente-> {{USER_GOERLI_BALANCE}} TestEth </nobr></font></h6>
+    {% endif %}
+
+    {%if BALANCE_FAUCET == "Empity" or GOERLI_FAUCET_ETH_BALANCE < 0.1 %} <!-- Considero ≈ 0.05 GoerliEth per non andare sotto soglia per Gas di eventuali ricaricamenti -->
+      
+    
+    <nobr><font color="red"><h5> <center> L'accesso alle funzionalità offerte dal portale su "BC TestNet Goerli" richiede degli EtherTest ; <br> L'address Faucet creato ed associato per l'amministratore della piattaforma, al momento ha saldo nullo o insufficiente(<0.15)</center></h5></font>
+   </head>
+    <body>
+    <br>
+    <h6><font color="black"><nobr>Address Faucet: {{GOERLI_FAUCET_ERC20}} balance-> {{GOERLI_FAUCET_ETH_BALANCE}} TestEth </nobr></font></h6>
+    <h7><font color="blue"><nobr>Invia dal tuo Metamask degli Ether di Test che garantiscano un saldo di almeno 0.15 all'indizzo sopra indicato</font></h7>
+    <br> 
+       
+    {% endif %}
+    
+
+    {%if BALANCE_FAUCET == "NotEmpity" %}
+    
+    <h6><font color="black"><nobr>Address Faucet: {{GOERLI_FAUCET_ERC20}} balance-> {{GOERLI_FAUCET_ETH_BALANCE}} TestEth </nobr></font></h6>
+    
+    <br>
+    <br>
+    
+    {% if request.user.is_superuser %}
+    {%if not COUNT_PATOKEN_EOA == 0.0 %}
+    <nobr><a class="nav-link" href="/updateGoerliERC20Balance/all/" target="_self"><font color="blue"><li><b>Clicca qui {{COUNT_PATOKEN_EOA}} volte per trasferire dal Faucet i PATOKEN attribuiti in numero casuale dalla piattaforma ai vari User </b></li></font> </a></nobr>
+      {% endif %}
+   {% endif %}
+    
+  
+   <nobr><a class="nav-link" href="/getTotalSupply/goerli"target="_self"><font color="blue"><li><b>Mostra la Total Supply del Token "PatokenErc20" in Gorli Blockchain</b></li></font></a></nobr>
+   
+   {% if not piggyBankScGorliAddress == '' %}
+
+   <nobr><a class="nav-link" href="/getBalanceOnMoneyBox/goerli/"><font color="blue"><li><b>Visualizza saldo Patoken depositato dall attuale EOA sullo SmartContract MoneyBox su Testnet Goerli </b></li></font></a></nobr>
+   
+   <nobr><a class="nav-link" href="/getWithdrawERC20view/goerli/"><font color="blue"><li><b> Ritira Patoken precedentemente depositati sul MoneyBox SC dal EOA attualmente autenticato </b></li></font></a></nobr>
+   
+   {% endif %}
+
+   {% if request.user.is_superuser %}
+   {% if piggyBankScGorliAddress is null or piggyBankScGorliAddress == '' or piggyBankScGorliAddress is None %}
+   <nobr><a class="nav-link" href="/showAddressTransferToken/gorli/"target="_self"><font color="blue"><li><b>Deploya lo smartContract del MoneyBox su BlockChain Goerli e abilita i trasferimenti tra User </b></li></font></a></nobr>
+  {% else %}
+  <nobr><a class="nav-link" href="/showAddressTransferToken/gorli/"target="_self"><font color="blue"><li><b>Trasferisci "PatokenErc20" sugli address Gorli della Piattaforma o sul MoneyBox</b></li></font></a></nobr>
+  {% endif %}
+  {% endif %}
+
+
+
+  {% if not request.user.is_superuser %}
+  {% if piggyBankScGorliAddress is null or piggyBankScGorliAddress == '' or piggyBankScGorliAddress is None %}
+  <nobr><font color="red"><li><b>Attenzione, i depositi verso il MoneyBox non sono ancora disponibili perchè il relativo SmartContract deve prima essere deployato dal Admin(menù Transfer)  </b></li></font></a></nobr>
+ {% else %}
+ <nobr><a class="nav-link" href="/showAddressTransferToken/gorli/"target="_self"><font color="blue"><li><b>Trasferisci "PatokenErc20" sugli address Gorli della Piattaforma o sul MoneyBox</b></li></font></a></nobr>
+ {% endif %}
+ {% endif %}
+  
+
+   {% if not request.user.is_superuser and GORLI_CURRENT_ERC_BALANCE == 0.0 %} <!-- Sistemare da qua -->
+   <nobr><a href="/updateGoerliERC20Balance/single/" target="_self"><font color="blue"><li><b>Clicca qui per trasferire dal Faucet i PATOKEN attribuiti in numero casuale dalla piattaforma </b></li></a></nobr>
+   {% endif %}
+
+
+    {% endif %}
+    
+    <br>
+    <br> 
+
+    {% if request.user.is_superuser %}
+   
+   <nobr><font color="brown"><h5>Essendo l' ADMIN disponi dei seguenti privilegi aggiuntivi: </h5><font color="green"></nobr>
+     
+   <nobr><a class="nav-link" href="/showTokenBalances/goerli"><font color="green"><li><b>Visualizza saldi ERC20 PatToken sui diversi Address </b></li></font></a></nobr>
+   <!---<nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Analizza Log eventi di scambio tra EoA e di deposito/Withdraw sul MoneyBox e relativi cambi delegato </b></li></font></a></nobr>  <!--Interroga gli eventi delle Tx associate allo Smart Contract "Patoken Erc20" mostrandone la cronologia degli scambi tra Address-->
+   <!---<nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Delega EOA uso complessivo bilanci del MoneyBox  </b></li></font></a></nobr>
+   <nobr><a class="nav-link" href="/showEvent/"><font color="green"><li><b>Reinizializza consistenza MoneyBox </b></li></font></a></nobr> --->
+   {% endif %}
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+    <br>
+    <br>  
+    
+    <table style="color: #8B4513; font-style: italic;">
+      <tr>
+         <td><u><nobr>CONTATORE EVENTI TRASFERIMENTO TOKEN SU RETE GORLI TRA EoA PIATTAFORMA:</nobr></u></td>
+         {% if COUNT_EVENT_TRANSFER_GORLI == None %}
+           <td><b> 0 </b></td>
+         {% endif %}
+         {% if not COUNT_EVENT_TRANSFER_GORLI == None %}
+           <td><b> {{COUNT_EVENT_TRANSFER_GORLI}}  </b></td>
+         {% endif %}  
+     </tr>
+   </table> 
+
+    <nobr><p>------------------------------------------------------------------------------------------------------------------------------------------------------------------</p></nobr>
+    <a class="nav-link" href="https://goerlifaucet.com/">
+      <div style="text-align: left; margin-bottom: 1px;">
+        <li style="font-size: 16px; list-style-type: '➤';">Ottieni degli Eth di Test Goerli</li>
+      </div>
+    </a>
+    <a class="nav-link" href="/">
+      <div style="text-align: left; margin-bottom: 1px;">
+        <li style="font-size: 16px; list-style-type: '➤';">Torna alla Homepage!</li>
+      </div>
+    </a>
+    <a class="nav-link" href="/viewGoerli/">
+      <div style="text-align: left; margin-bottom: 1px;">
+        <nobr><li style="font-size: 16px; list-style-type: '➤';">Inviati ulteriori Ether per superare la quantità minima di 0.15? Attendi circa 20 secondi e ricarica la presente pagina</li></nobr>
+      </div>
+    </a>
+    {% if request.user.is_superuser %}
+    <nobr><h10><font color="brown"><em>Se il saldo Faucet supera già la soglia, a ricaricamenti successivi verranno ritirati sullo stesso ulteriori 0.05 dal BootFaucet SmartContract fino a saldo complessivo 0.2 </em></font></h10></nobr>
+    {% endif %}
+  
+    <hr style="border-top: 1px solid #ccc; margin-top: 20px; margin-bottom: 10px;">
+
+  
+
+  </body>
+</html>
+
+
+{% endblock content %}

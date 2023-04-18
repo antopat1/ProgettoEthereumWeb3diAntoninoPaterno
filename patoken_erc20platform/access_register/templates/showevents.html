@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<br>
+<font color = "red" > <h5> <nobr> Di seguito la lista degli eventi di trasferimento Patoken tra EoA della piattaforma o verso SC MoneyBox su Local BC: </nobr> </h5> </font>
+
+<TABLE CELLPADDING = 40> 
+     <TR>
+
+     <TD> 
+
+    
+
+     <TABLE BORDER = 0>
+
+     <TR> <TH> <table width = "250" align = "left" bgcolor = "#00ff00" border = "0" table - layout = "auto"> <tbody>
+
+     </tbody> </table> </TH> </TR>
+
+         <TR> <TD> <div class = "card-body">
+
+            <font face = "Courier New" size = "1"> <table summary = "" style = "border:1px solid red; float:left;" class = "table table-striped table-bordered table-hover table-sm ">
+
+                 <thead>
+                     <tr>
+                         <th scope = "col" > <font color = "bown"> Transaction </font> </th>
+                         <th scope = "col" > <font color = "bown"> Recipient Address </font> </th>
+                         <th scope = "col" > <font color = "bown"> Sender Address </font> </th>
+                         <th scope = "col" > <font color = "bown"> Quantità token trasferita </font> </th>
+                     </tr>
+                 </thead>
+
+                 {% for event in getEvent %}
+                 <tbody>
+                     <tr>
+                         <td> <p> {{event.transact}} </p> </td>
+                         <td> <p> {{event.recipientAddress}} </p> </td>
+                         <td> <p> {{event.senderAddress}} </p> </td>
+                         <td> <p> {{event.amountErcTransfer}} </p> </td>
+                     </tr>
+                 </tbody>
+                 {% endfor %}
+             </table> </font>
+          </div></TD></TR>
+     </TABLE>
+     
+     </TD>  <!--- Fine della prima cella invisibile --->
+     
+     </TR>
+     </TABLE>
+
+     <br>
+
+<br>
+ <a class="nav-link" href="/"><font color="green"><div style="text-align: left"><li>Torna alla Homepage!</li></div></font></a>
+{% endblock content %}
+
+
+
