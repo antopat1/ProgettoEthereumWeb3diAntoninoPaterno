@@ -19,6 +19,7 @@ There is also functions that shows the balances of the different accounts on own
 
 ● Ganache v2.5.4;
 
+
 ## Libraries and further upgrades to be called from the terminal subsequent to the installation of the requirements.txt
 
 ● npm install -g ganache-cli;
@@ -26,3 +27,22 @@ There is also functions that shows the balances of the different accounts on own
 ● brownie pm install OpenZeppelin/openzeppelin-contracts@4.0.0;
 
 ● pip install --upgrade pymongo==3.12;
+
+## Start the project
+
+● Then previous setting , virtualnv creation and requirement.txt installation run the following commands:
+
+    $ python manage.py makemigrations
+    $ python manage.py migrate
+
+Create a superuser with:
+
+    $ python manage.py createsuperuser
+
+Start the project by typing (because on settings.py DEBUG =  False static contents are not accessible with standard run):
+
+    $ python manage.py runserver --insecure
+ 
+
+
+
