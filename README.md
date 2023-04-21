@@ -30,7 +30,7 @@ There is also functions that shows the balances of the different accounts on own
 
 ## Start the project
 
-● Then previous setting , virtualnv creation and requirement.txt installation run the following commands:
+● Then boot Ganache v2.5.4 , virtualnv creation and requirement.txt installation run the following commands:
 
     $ python manage.py makemigrations
     $ python manage.py migrate
